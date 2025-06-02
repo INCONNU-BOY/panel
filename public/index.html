@@ -1,25 +1,75 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>QUEEN ASUNA PANEL 👸</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Bot Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+    h1 { font-size: 2em; margin-bottom: 20px; }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #00c6ff;
+      color: white;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>👸 QUEEN ASUNA - PANEL BOT 👸</h1>
-    <form id="botForm">
-      <input type="text" id="name" placeholder="Nom du bot" required />
-      <select id="type">
-        <option value="illimité">Illimité</option>
-        <option value="limité">Limité</option>
-      </select>
-      <button type="submit">Créer</button>
-    </form>
-    <h2>🛠️ Bots créés :</h2>
-    <ul id="botList"></ul>
-  </div>
-  <script src="script.js"></script>
+  <h1>🚀 Générateur de Bot Render</h1>
+  <input type="text" id="name" placeholder="Nom du bot (ex: Inconnu Tech)" />
+  <select id="type">
+    <option value="illimité">Illimité</option>
+    <option value="limité">Limité</option>
+  </select>
+  <button onclick="createBot()">Créer un serveur</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    async function createBot() {
+      const name = document.getElementById("name").value;
+      const type = document.getElementById("type").value;
+
+      const resBox = document.getElementById("result");
+      resBox.innerHTML = "⏳ Création en cours...";
+
+      const res = await fetch("/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, type })
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        resBox.innerHTML = "❌ Erreur : " + data.error;
+      } else {
+        resBox.innerHTML = `
+          ✅ ${data.message}<br>
+          🔗 <a href="${data.dashboard}" style="color: #00ffff;">Voir sur Render</a><br>
+          🌐 Lien : ${data.service_url}
+        `;
+      }
+    }
+  </script>
 </body>
 </html>
