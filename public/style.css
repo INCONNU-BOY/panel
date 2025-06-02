@@ -1,0 +1,30 @@
+/* public/style.css */
+body {
+  font-family: sans-serif;
+  background-color: #222;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #333;
+  padding: 20px;
+  border-radius: 10px;
+}
+input, select, button {
+  padding: 10px;
+  margin: 10px;
+  width: 80%;
+}
+button {
+  background: #e91e63;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
